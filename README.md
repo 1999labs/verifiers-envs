@@ -167,8 +167,7 @@ python data_gen/validate_dataset.py curators_eye/data/curators_eye.jsonl
 # from the Hub
 prime env install <owner>/curators-eye
 
-# or from source
-cd environments/curators_eye
+# or from source (from the repo root)
 uv venv && uv pip install --prerelease=allow -e .
 ```
 
