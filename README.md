@@ -4,7 +4,9 @@
 
 **Tags:** `single-turn` `reasoning` `eval` `train` · **verifiers:** v1 (`verifiers.v1`)
 
-**On the Hub:** [1999-labs/curator](https://app.primeintellect.ai/dashboard/environments/1999-labs/curator)
+An environment for Prime Intellect's verifiers framework, published on the Environments Hub
+at [1999-labs/curator](https://app.primeintellect.ai/dashboard/environments/1999-labs/curator).
+Install with `prime env install 1999-labs/curator@latest`.
 
 ## What this is
 
@@ -200,13 +202,8 @@ python data_gen/validate_dataset.py curator/data/curator.jsonl
 
 ## Install
 
-From the Hub:
-
-```bash
-prime env install 1999-labs/curator@latest
-```
-
-Or with uv, straight from the index:
+`prime env install 1999-labs/curator@latest` pulls it from the Hub. Or install
+with uv, straight from the index:
 
 ```bash
 uv pip install curator --extra-index-url https://hub.primeintellect.ai/1999-labs/curator/install/simple/
