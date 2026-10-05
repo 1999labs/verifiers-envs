@@ -1,4 +1,4 @@
-"""Assemble curators-eye rows from hand-authored theme specs.
+"""Assemble curator rows from hand-authored theme specs.
 
 Each spec (data_gen/specs/*.json) is one hidden organizing principle with a pool
 of members that satisfy it and a pool of near-miss intruders that share the
@@ -11,7 +11,7 @@ intruders, shuffles it, assigns letter IDs, and writes HF-compatible rows:
     info    dict                       theme, decoy, tier, domain, split, items (with truth)
 
 Usage:
-    python data_gen/build_dataset.py data_gen/specs/*.json -o curators_eye/data/curators_eye.jsonl
+    python data_gen/build_dataset.py data_gen/specs/*.json -o curator/data/curator.jsonl
 """
 
 import argparse

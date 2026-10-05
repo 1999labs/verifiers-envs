@@ -1,4 +1,4 @@
-"""Quality gates for a built curators-eye JSONL file.
+"""Quality gates for a built curator JSONL file.
 
 Hard failures (exit 1): malformed rows, item counts outside 8-12, intruder counts
 outside 1-2, duplicate items within a row, duplicate themes across rows, invisible

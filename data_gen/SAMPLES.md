@@ -1,4 +1,4 @@
-# curators-eye: 10 sample rows for review
+# curator: 10 sample rows for review
 
 Built by `data_gen/build_dataset.py` from `data_gen/specs/samples.json`. Each row's
 `answer` holds the intruder IDs, and `info` holds the hidden theme, decoy, tier, and every item's truth.

@@ -5,9 +5,9 @@ from pathlib import Path
 import pytest
 
 import verifiers.v1 as vf
-from curators_eye.taskset import (
-    CuratorsEyeConfig,
-    CuratorsEyeTaskset,
+from curator.taskset import (
+    CuratorConfig,
+    CuratorTaskset,
     ThemeJudge,
     parse_intruders,
     parse_theme,
@@ -16,11 +16,11 @@ from verifiers.v1.graph import MessageNode
 from verifiers.v1.types import AssistantMessage, UserMessage
 
 ROOT = Path(__file__).resolve().parents[1]
-NO_KEY = "CURATORS_EYE_TEST_UNSET_KEY"
+NO_KEY = "CURATOR_TEST_UNSET_KEY"
 
 
 def load(**config) -> list:
-    return CuratorsEyeTaskset(CuratorsEyeConfig(**config)).load()
+    return CuratorTaskset(CuratorConfig(**config)).load()
 
 
 def with_key_var(task, var: str):
@@ -72,7 +72,7 @@ def test_filters_and_splits_partition_the_data() -> None:
 
 def test_dataset_passes_validator() -> None:
     result = subprocess.run(
-        [sys.executable, str(ROOT / "data_gen/validate_dataset.py"), str(ROOT / "curators_eye/data/curators_eye.jsonl")],
+        [sys.executable, str(ROOT / "data_gen/validate_dataset.py"), str(ROOT / "curator/data/curator.jsonl")],
         capture_output=True,
         text=True,
     )
@@ -129,8 +129,8 @@ async def test_flagging_everything_scores_low() -> None:
 
 
 async def test_judge_grades_theme(monkeypatch) -> None:
-    monkeypatch.setenv("CURATORS_EYE_TEST_KEY", "sk-test")
-    task = with_key_var(load()[0], "CURATORS_EYE_TEST_KEY")
+    monkeypatch.setenv("CURATOR_TEST_KEY", "sk-test")
+    task = with_key_var(load()[0], "CURATOR_TEST_KEY")
     seen = {}
 
     async def fake_complete(self, messages, *, trace=None, schema=None, parse=None, **_):

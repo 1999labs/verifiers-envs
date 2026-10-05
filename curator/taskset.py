@@ -1,4 +1,4 @@
-"""curators-eye: spot the near-miss intruders in a curated collection (single-turn).
+"""curator: spot the near-miss intruders in a curated collection (single-turn).
 
 The model sees 8-12 items (title + one-line description) chosen by an unstated
 organizing principle. One or two are near-miss intruders that share a looser
@@ -21,7 +21,7 @@ import verifiers.v1 as vf
 from verifiers.v1.configs.client import resolve_api_key
 from verifiers.v1.judge import judge_verdict
 
-DATA_PATH = Path(__file__).parent / "data" / "curators_eye.jsonl"
+DATA_PATH = Path(__file__).parent / "data" / "curator.jsonl"
 _INTRUDERS = re.compile(r"<intruders>(.*?)</intruders>", re.DOTALL | re.IGNORECASE)
 _THEME = re.compile(r"<theme>(.*?)</theme>", re.DOTALL | re.IGNORECASE)
 
@@ -66,19 +66,19 @@ Reply with a one-sentence justification, then "FINAL VERDICT: A", "FINAL VERDICT
         return {"A": 1.0, "B": 0.5, "C": 0.0}[verdict]
 
 
-class CuratorsEyeData(vf.TaskData):
+class CuratorData(vf.TaskData):
     answer: str
     """Comma-joined gold intruder IDs, e.g. "C,K"."""
     info: dict
     """Hidden theme, decoy, difficulty, domain, split, and every item with its truth flag."""
 
 
-class CuratorsEyeTaskConfig(vf.TaskConfig):
+class CuratorTaskConfig(vf.TaskConfig):
     judge: vf.JudgeConfig = vf.JudgeConfig()
     """Theme judge endpoint; skipped (graceful fallback) when its API key is unset."""
 
 
-class CuratorsEyeTask(vf.Task[CuratorsEyeData, vf.State, CuratorsEyeTaskConfig]):
+class CuratorTask(vf.Task[CuratorData, vf.State, CuratorTaskConfig]):
     @property
     def key(self) -> str:
         return self.data.info["spec_id"]
@@ -127,18 +127,18 @@ class CuratorsEyeTask(vf.Task[CuratorsEyeData, vf.State, CuratorsEyeTaskConfig])
         return float(self.judge_available())
 
 
-class CuratorsEyeConfig(vf.TasksetConfig):
+class CuratorConfig(vf.TasksetConfig):
     split: Literal["train", "eval", "all"] = "all"
     """Theme-disjoint split; `all` uses every row."""
     difficulty: list[Difficulty] = ["obvious", "moderate", "subtle"]
     """Keep only rows of these tiers."""
     dataset: str = ""
     """Optional HF Hub dataset id with the same columns; empty uses the bundled JSONL."""
-    task: CuratorsEyeTaskConfig = CuratorsEyeTaskConfig()
+    task: CuratorTaskConfig = CuratorTaskConfig()
 
 
-class CuratorsEyeTaskset(vf.Taskset[CuratorsEyeTask, CuratorsEyeConfig]):
-    def load(self) -> list[CuratorsEyeTask]:
+class CuratorTaskset(vf.Taskset[CuratorTask, CuratorConfig]):
+    def load(self) -> list[CuratorTask]:
         if self.config.dataset:
             from datasets import load_dataset
 
@@ -155,8 +155,8 @@ class CuratorsEyeTaskset(vf.Taskset[CuratorsEyeTask, CuratorsEyeConfig]):
         for i, row in enumerate(rows):
             system, user = row["prompt"]
             tasks.append(
-                CuratorsEyeTask(
-                    CuratorsEyeData(
+                CuratorTask(
+                    CuratorData(
                         idx=i,
                         name=row["info"]["spec_id"],
                         system_prompt=system["content"],

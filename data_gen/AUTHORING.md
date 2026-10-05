@@ -1,4 +1,4 @@
-# Authoring curators-eye theme specs
+# Authoring curator theme specs
 
 Each spec is one hidden organizing principle. `build_dataset.py` turns every spec
 into one dataset row, and `validate_dataset.py` gates the result.
